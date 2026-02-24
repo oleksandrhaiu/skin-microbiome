@@ -1,24 +1,28 @@
+import React from 'react';
 import { Microbe } from '@/types/microbe';
+import { Badge } from '@/components/ui/Badge';
 
 interface MicrobeCardProps {
     microbe: Microbe;
 }
 
 export function MicrobeCard({ microbe }: MicrobeCardProps) {
-    // Badge color
-    const roleColors = {
-        beneficial: 'bg-green-100 text-green-800',
-        neutral: 'bg-gray-100 text-gray-800',
-        pathogenic: 'bg-red-100 text-red-800',
+    const getRoleVariant = (role: Microbe['role']) => {
+        switch (role) {
+            case 'beneficial': return 'success';
+            case 'pathogenic': return 'destructive';
+            case 'neutral': return 'secondary';
+            default: return 'default';
+        }
     };
 
     return (
         <div className="p-5 bg-white rounded-xl shadow-sm border border-gray-200 hover:shadow-md transition-shadow">
             <div className="flex justify-between items-start mb-3">
                 <h3 className="font-semibold text-lg">{microbe.name}</h3>
-                <span className="text-sm font-medium px-2.5 py-0.5 rounded-full bg-blue-50 text-blue-700 capitalize">
-          {microbe.type}
-        </span>
+                <Badge variant="blue" className="capitalize">
+                    {microbe.type}
+                </Badge>
             </div>
 
             <div className="space-y-2 text-sm">
@@ -28,9 +32,9 @@ export function MicrobeCard({ microbe }: MicrobeCardProps) {
                 </div>
                 <div className="flex justify-between items-center pt-1">
                     <span className="text-gray-500">Role</span>
-                    <span className={`px-2 py-1 rounded text-xs font-medium capitalize ${roleColors[microbe.role]}`}>
-            {microbe.role}
-          </span>
+                    <Badge variant={getRoleVariant(microbe.role)} className="capitalize">
+                        {microbe.role}
+                    </Badge>
                 </div>
             </div>
         </div>
